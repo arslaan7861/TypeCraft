@@ -1,24 +1,19 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import TypingArea from "./compenents/typingArea";
+import Statusbar from "./compenents/statusbar";
+import LevelSelector from "./compenents/LevelSelector";
+export const testString: string[] =
+  "Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit nulla ipsum, necessitatibus voluptatem totam, ea repellendus dolores nesciunt vero sequi beatae ratione incidunt asperiores fugiat facere aut dolorum inventore cupiditate.".split(
+    ""
+  );
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="relative h-screen w-screen bg-bgPrimary flex items-center  flex-col justify-center">
+      <LevelSelector />
+
+      <Statusbar />
+      <TypingArea />
     </div>
   );
 }
