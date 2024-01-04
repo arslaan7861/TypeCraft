@@ -9,6 +9,22 @@
   --bgPrimary: #013255;
   --bgSecondary: #012239;
 }
+#level {
+  -webkit-appearance: none;
+  appearance: none;
+  &::-webkit-slider-runnable-track {
+    background-color: var(--bgSecondary);
+    height: 1rem;
+    border-radius: 100px;
+  }
+  &::-webkit-slider-thumb {
+    background: var(--primary);
+    height: 2rem;
+    aspect-ratio: 1;
+    position: relative;
+    transition: all 100ms linear;
+  }
+}
 @tailwind components;
 
 @tailwind utilities;

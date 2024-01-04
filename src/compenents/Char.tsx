@@ -1,18 +1,30 @@
 import React from "react";
+import { typingLevels } from "../App";
+
 type Charprops = {
   ch: string;
   index: number;
   typedText: string;
+  level: number;
 };
+const audio = new Audio("../utils/wrongpress.mp3");
 
-function Char({ ch, index, typedText }: Charprops) {
-  let color: "white" | "red-500" | "green-500" = !typedText[index]
+function Char({ ch, index, typedText, level }: Charprops) {
+  let color: "white" | "#fb0d01" | "#01fb69" = !typedText[index]
     ? "white"
-    : typedText[index] === ch
-    ? "green-500"
-    : "red-500";
+    : typedText[index] === typingLevels[level][index]
+    ? "#01fb69"
+    : "#fb0d01";
 
-  return <div className={`text-${color}`}>{ch}</div>;
+  return (
+    <div
+      style={{
+        color: `${color}`,
+      }}
+    >
+      {ch}
+    </div>
+  );
 }
 
 export default Char;
