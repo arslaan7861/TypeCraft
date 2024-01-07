@@ -7,7 +7,6 @@ type Charprops = {
   typedText: string;
   level: number;
 };
-const audio = new Audio("../utils/wrongpress.mp3");
 
 function Char({ ch, index, typedText, level }: Charprops) {
   let color: "white" | "#fb0d01" | "#01fb69" = !typedText[index]

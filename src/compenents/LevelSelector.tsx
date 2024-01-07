@@ -14,7 +14,7 @@ function LevelSelector({
   setModal,
 }: LevelSelectorProps) {
   return (
-    <article className=" flex flex-col relative w-3/4 items-center z-[100] rounded-full">
+    <article className=" flex flex-col relative w-3/4 items-center z-[50] rounded-full">
       <label
         htmlFor="level"
         className="text-white text-lg uppercase absolute -top-12 font-semibold"
@@ -38,10 +38,9 @@ function LevelSelector({
         className="w-full h-5 rounded-full bg-bgPrimary focus:outline-none "
       />
       {typingLevels.map((_, lvl) => {
-        console.log(lvl);
-
         return (
           <span
+            key={lvl}
             style={{
               left: `${lvl * 10.8}%`,
               // left: "100%",

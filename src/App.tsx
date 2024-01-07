@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import TypingArea from "./compenents/typingArea";
-import Statusbar from "./compenents/statusbar";
 import LevelSelector from "./compenents/LevelSelector";
 import Modal from "./compenents/Modal";
+import Results from "./compenents/Results";
 
 export const typingLevels: string[] = [
   "The quick brown fox jumps over the lazy dog. It was a sunny day in the forest, and the animals were busy with their daily activities. The fox, known for its agility, effortlessly leaped over obstacles, leaving the onlookers in awe of its grace and speed.",
+  // "helo",
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam varius imperdiet odio, id aliquet neque vulputate nec. Aenean auctor tortor quis nulla fermentum, a bibendum justo blandit. Sed tristique ligula eget tortor fermentum, nec dapibus risus scelerisque. Nulla facilisi.",
   "In a hole in the ground, there lived a hobbit named Bilbo Baggins. One day, Gandalf the wizard visited Bilbo and invited him on an unexpected journey. Little did Bilbo know that this adventure would take him to distant lands, encountering dragons, dwarves, and magical rings.",
   "Two households, both alike in dignity, in fair Verona, where we lay our scene. From ancient grudge break to new mutiny, where civil blood makes civil hands unclean. From forth the fatal loins of these two foes, a pair of star-crossed lovers take their life.",
@@ -16,10 +17,24 @@ export const typingLevels: string[] = [
   "Quantum entanglement is a phenomenon in quantum physics where two or more particles become connected in such a way that the state of one particle instantly influences the state of the other, regardless of the distance between them. This mysterious connection challenges our classical understanding of space and time.",
   "The intricacies of quantum field theory and the pursuit of a unified theory of everything remain forefront in theoretical physics. Researchers delve into the complexities of particle interactions, seeking a comprehensive framework that harmonizes the principles of quantum mechanics and general relativity, unraveling the mysteries of the universe.",
 ];
+export type ResultType = {
+  errors: number;
+  Time: number;
+  words: number;
+  level: number;
+  show: boolean;
+};
 
 export type Modaltype = {
   text: string;
   show: boolean;
+};
+const initialstate = {
+  show: false,
+  Time: 0,
+  words: 0,
+  level: 1,
+  errors: 0,
 };
 function App() {
   const [level, setLevel] = useState<number>(0);
@@ -28,21 +43,44 @@ function App() {
     text: "",
     show: false,
   });
-
+  const time: React.MutableRefObject<number> = useRef(0);
+  const [typingStrt, setTyping] = useState<boolean>(false);
+  const [results, setResults] = useState<ResultType>(initialstate);
+  useEffect(() => {
+    setResults((old) => ({ ...old, level }));
+  }, [level]);
+  useEffect(() => {
+    if (typingLevels[level].length !== typedText.length) return;
+    setResults((old) => ({
+      ...old,
+      show: true,
+      words: typedText.length / 5,
+    }));
+    setTyping(false);
+  }, [typedText, level]);
+  const reset = () => {
+    setResults(initialstate);
+    setTypedtext("");
+  };
   return (
-    <div className="relative overflow-hidden gap-5 h-screen w-screen bg-bgPrimary flex items-center  flex-col justify-center">
+    <div className="relative overflow-hidden gap-5 h-screen w-screen bg-bgPrimary flex items-center flex-col justify-center">
       <LevelSelector
         textTyped={typedText.length !== 0}
         setLevel={setLevel}
         level={level}
         setModal={setModal}
       />
-      <Statusbar />
       <TypingArea
         setTypedtext={setTypedtext}
         typedText={typedText}
         level={level}
+        setTyping={setTyping}
+        typing={typingStrt}
+        time={time}
+        results={results}
+        setResults={setResults}
       />
+      {results.show && <Results results={results} reset={reset} />}
       {modal.show && <Modal modal={modal} setModal={setModal} />}
     </div>
   );
